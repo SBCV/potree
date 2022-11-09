@@ -9,8 +9,6 @@ const concat = require('gulp-concat');
 const connect = require('gulp-connect');
 const {watch} = gulp;
 
-const {createIconsPage} = require("./src/tools/create_icons_page");
-
 
 let paths = {
 	laslaz: [
@@ -81,18 +79,6 @@ gulp.task('webserver', gulp.series(async function() {
 	});
 }));
 
-gulp.task('icons_viewer', async function(done) {
-	await createIconsPage();
-
-	done();
-
-});
-
-gulp.task('test', async function() {
-
-	console.log("asdfiae8ofh");
-
-});
 
 gulp.task("workers", async function(done){
 
@@ -149,7 +135,7 @@ gulp.task("shaders", async function(){
 
 gulp.task('build', 
 	gulp.series(
-		gulp.parallel("workers", "lazylibs", "shaders", "icons_viewer"),
+		gulp.parallel("workers", "lazylibs", "shaders"),
 		async function(done){
 			gulp.src(paths.html).pipe(gulp.dest('build/potree'));
 
