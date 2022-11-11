@@ -163,13 +163,14 @@
 			
 			let mesh1;
 			{
-				//let material = new THREE.MeshNormalMaterial();
-				//let material = new THREE.MeshBasicMaterial();
-				let material = new THREE.MeshPhongMaterial( {
-					specular: 0,
-					shininess: 0,
+				let material = new THREE.MeshBasicMaterial( {
 					vertexColors: THREE.VertexColors
 				} );
+				// let material = new THREE.MeshPhongMaterial( {
+				// 	specular: 0,
+				// 	shininess: 0,
+				// 	vertexColors: THREE.VertexColors
+				// } );
 				mesh1 = new THREE.Mesh( geometry, material );
 				mesh1.position.set(589951.587, 231428.213, 710.634);
 				mesh1.scale.multiplyScalar(500);
