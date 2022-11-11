@@ -116,44 +116,44 @@
 			let model_obj_mtl_dp = `${Potree.resourcePath}/models/${model_dn}/`;
 
 			// Option 1: Load OBJ / MTL files (best results, but higher file size)
-			let mtl_loader = new MTLLoader();
-			mtl_loader.setPath(model_obj_mtl_dp);
-			mtl_loader.load(
-				'textured.mtl',
-				function (materials) {
-					materials.preload();
-					let obj_loader = new OBJLoader(manager);
-					obj_loader.setMaterials(materials);
-					obj_loader.setPath(model_obj_mtl_dp);
-					obj_loader.load(
-						'textured.obj',
-						function (object) {
-							// Do not remove these settings, since they substantially improve the navigation. 
-							object.position.set(589871.587, 231528.213, 725.634);
-							object.scale.multiplyScalar(500);
-							object.rotation.set(Math.PI / 2, Math.PI, 0)
-							viewer.scene.scene.add(object);
-							viewer.onGUILoaded(() => {
-								// Add entries to object list in sidebar
-								let tree = $(`#jstree_scene`);
-								let parentNode = "other";
+			// let mtl_loader = new MTLLoader();
+			// mtl_loader.setPath(model_obj_mtl_dp);
+			// mtl_loader.load(
+			// 	'textured.mtl',
+			// 	function (materials) {
+			// 		materials.preload();
+			// 		let obj_loader = new OBJLoader(manager);
+			// 		obj_loader.setMaterials(materials);
+			// 		obj_loader.setPath(model_obj_mtl_dp);
+			// 		obj_loader.load(
+			// 			'textured.obj',
+			// 			function (object) {
+			// 				// Do not remove these settings, since they substantially improve the navigation. 
+			// 				object.position.set(589871.587, 231528.213, 725.634);
+			// 				object.scale.multiplyScalar(500);
+			// 				object.rotation.set(Math.PI / 2, Math.PI, 0)
+			// 				viewer.scene.scene.add(object);
+			// 				viewer.onGUILoaded(() => {
+			// 					// Add entries to object list in sidebar
+			// 					let tree = $(`#jstree_scene`);
+			// 					let parentNode = "other";
 
-								let mesh_id = tree.jstree('create_node', parentNode, { 
-										text: 'obj_' + `${model_dn}`,
-										icon: `${Potree.resourcePath}/icons/triangle.svg`,
-										data: object
-									}, 
-									"last", false, false);
-								tree.jstree(object.visible ? "check_node" : "uncheck_node", mesh_id);
+			// 					let mesh_id = tree.jstree('create_node', parentNode, { 
+			// 							text: 'obj_' + `${model_dn}`,
+			// 							icon: `${Potree.resourcePath}/icons/triangle.svg`,
+			// 							data: object
+			// 						}, 
+			// 						"last", false, false);
+			// 					tree.jstree(object.visible ? "check_node" : "uncheck_node", mesh_id);
 
-								//tree.jstree("open_node", parentNode);
-							});
-						},
-						onProgress,
-						onError
-					);
-				} 
-			);
+			// 					//tree.jstree("open_node", parentNode);
+			// 				});
+			// 			},
+			// 			onProgress,
+			// 			onError
+			// 		);
+			// 	} 
+			// );
 
 			// Option 2: Load PLY files (bad appearance, but lower file size)
 			var loader = new PLYLoader();
