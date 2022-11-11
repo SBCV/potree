@@ -114,6 +114,8 @@
 
 			let model_dn = 'mesh_site_3_gdmr_textured';
 			let model_obj_mtl_dp = `${Potree.resourcePath}/models/${model_dn}/`;
+
+			// Option 1: Load OBJ / MTL files (best results, but higher file size)
 			let mtl_loader = new MTLLoader();
 			mtl_loader.setPath(model_obj_mtl_dp);
 			mtl_loader.load(
@@ -137,7 +139,7 @@
 								let parentNode = "other";
 
 								let mesh_id = tree.jstree('create_node', parentNode, { 
-										text: `${model_dn}`,
+										text: 'obj_' + `${model_dn}`,
 										icon: `${Potree.resourcePath}/icons/triangle.svg`,
 										data: object
 									}, 
@@ -152,6 +154,45 @@
 					);
 				} 
 			);
+
+			// Option 2: Load PLY files (bad appearance, but lower file size)
+			var loader = new PLYLoader();
+			loader.setPath(model_obj_mtl_dp);
+			loader.load("textured.ply", (geometry) => {
+			geometry.computeVertexNormals();
+			
+			let mesh1;
+			{
+				//let material = new THREE.MeshNormalMaterial();
+				//let material = new THREE.MeshBasicMaterial();
+				let material = new THREE.MeshPhongMaterial( {
+					specular: 0,
+					shininess: 0,
+					vertexColors: THREE.VertexColors
+				} );
+				mesh1 = new THREE.Mesh( geometry, material );
+				mesh1.position.set(589951.587, 231428.213, 710.634);
+				mesh1.scale.multiplyScalar(500);
+				mesh1.rotation.set(Math.PI / 2, Math.PI, 0)
+				viewer.scene.scene.add(mesh1);
+			}
+
+			viewer.onGUILoaded(() => {
+				// Add entries to object list in sidebar
+				let tree = $(`#jstree_scene`);
+				let parentNode = "other";
+
+				let bunny1ID = tree.jstree('create_node', parentNode, { 
+						"text": 'ply_' + `${model_dn}`, 
+						"icon": `${Potree.resourcePath}/icons/triangle.svg`,
+						"data": mesh1
+					}, 
+					"last", false, false);
+				tree.jstree(mesh1.visible ? "check_node" : "uncheck_node", bunny1ID);
+
+			});
+			
+		});
 
 
 
